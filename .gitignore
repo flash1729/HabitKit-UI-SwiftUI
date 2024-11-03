@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+# Visual Studio Code
+.vscode/
+*.code-workspace
+# Xcode
+*.xcworkspace/
+xcuserdata/
+DerivedData/
