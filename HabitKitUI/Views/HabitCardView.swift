@@ -21,20 +21,16 @@ struct HabitCardView: View {
                 
                 Spacer()
                 
-                Button(action: {
-                                withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                                    viewModel.toggleHabit(habitId: habit.id, dayIndex: habit.completionData.count - 1)
-                                }
-                            }) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(habit.color)
-                                    .opacity(habit.isCompletedToday ? 1.0 : 0.2)
-                                    .scaleEffect(habit.isCompletedToday ? 1.1 : 1.0)
-                                    .font(.system(size: 24))
-                                    .contentShape(Circle())
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                            .sensoryFeedback(.impact(weight: .medium), trigger: habit.isCompletedToday)
+                Button(action: { viewModel.toggleHabit(habitId: habit.id, day: Date()) }) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(habit.color)
+                        .opacity(habit.isCompletedToday ? 1.0 : 0.2)
+                        .scaleEffect(habit.isCompletedToday ? 1.1 : 1.0)
+                        .font(.system(size: 24))
+                        .contentShape(Circle())
+                }
+                .buttonStyle(PlainButtonStyle())
+                .sensoryFeedback(.impact(weight: .medium), trigger: habit.isCompletedToday)
             }
             
             HabitGridView(habit: habit)

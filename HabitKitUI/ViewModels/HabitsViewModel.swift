@@ -17,12 +17,21 @@ class HabitsViewModel: ObservableObject {
         habits.insert(habit, at: 0)
         objectWillChange.send()
     }
-    
-    func toggleHabit(habitId: UUID, dayIndex: Int) {
-            if let habitIndex = habits.firstIndex(where: { $0.id == habitId }) {
-                guard dayIndex >= 0 && dayIndex < habits[habitIndex].completionData.count else { return }
-                habits[habitIndex].completionData[dayIndex].toggle()
-            }
+
+    func toggleHabit(habitId: UUID, date: Date) {
+        guard let habitIndex = habits.firstIndex(where: { $0.id == habitId }) else {
+            return
+        }
+        
+        // Normalize the date to midnight to avoid time discrepancies
+        let normalizedDate = Calendar.current.startOfDay(for: date)
+        
+        // Toggle the completion status for the given date
+        if let isCompleted = habits[habitIndex].completionData[normalizedDate] {
+            habits[habitIndex].completionData[normalizedDate] = !isCompleted
+        } else {
+            // If there's no entry for the date, we assume it's not completed and mark it as completed
+            habits[habitIndex].completionData[normalizedDate] = true
+        }
     }
 }
-
